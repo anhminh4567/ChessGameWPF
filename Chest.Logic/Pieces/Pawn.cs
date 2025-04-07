@@ -1,4 +1,5 @@
-﻿using Chest.Logic.Pieces.@abstract;
+﻿using Chest.Logic.Moves.@abstract;
+using Chest.Logic.Pieces.@abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,10 @@ namespace Chest.Logic.Pieces
 			Pawn copy = new Pawn(Color);
 			copy.HasMoved = HasMoved;
 			return copy;
+		}
+		public override IEnumerable<Move> GetMoves(Position from, Board board)
+		{
+			throw new NotImplementedException();
 		}
 	}
 

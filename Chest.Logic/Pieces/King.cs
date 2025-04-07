@@ -1,4 +1,5 @@
-﻿using Chest.Logic.Pieces.@abstract;
+﻿using Chest.Logic.Moves.@abstract;
+using Chest.Logic.Pieces.@abstract;
 
 namespace Chest.Logic.Pieces
 {
@@ -15,6 +16,10 @@ namespace Chest.Logic.Pieces
 			King copy = new King(Color);
 			copy.HasMoved = HasMoved;
 			return copy;
+		}
+		public override IEnumerable<Move> GetMoves(Position from, Board board)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

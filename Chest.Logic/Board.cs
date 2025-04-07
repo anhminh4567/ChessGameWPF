@@ -81,9 +81,13 @@ namespace Chest.Logic
 			}
 		}
 
-		public bool IsValidPosition(int row, int column)
+		public static bool IsValidPosition(int row, int column)
 		{
 			return row >= 0 && row < 8 && column >= 0 && column < 8;
+		}
+		public static bool IsValidPosition(Position position)
+		{
+			return IsValidPosition(position.Row, position.Column);
 		}
 		public bool IsEmpty(Position position)
 		{

@@ -2,10 +2,16 @@
 - [Introduction](#introduction)
 - [Position and Direction](#position-and-direction)
 - [Pieces](#image-example)
-
+- [Position and possible moves](#position-and-moves)
 ## Introduction
 this project follow tutorial from https://www.youtube.com/@OttoBotCode
 
+
+Logic:<br/>
+&nbsp;&nbsp;GameState <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Player (who, who go first)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Board <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pieces<br/>
 
 ## Position and Direction
 record changes to the code
@@ -23,3 +29,13 @@ things like this in image:
 ## Pieces
 all pieces derived from the base class Piece
 in /Chest.Logic/Pieces/abstract
+
+## position-and-moves
+- this is among the main logic, we first pick a piece <br/>
+- then we get its possible moves ( N, S , NE, NW ,...) <br/>
+- then in that direction we check how far it can go till it reach the board 
+or it meet another pieces ( if of opponent piece, then means it can 
+be taken)<br/>
+ex img:
+<img src="./mdsrc/scrs_moves_position.png">
+- when it reach something, stop, and color those possible path

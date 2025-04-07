@@ -1,4 +1,6 @@
-﻿using Chest.Logic.Pieces.@abstract;
+﻿using Chest.Logic.Moves;
+using Chest.Logic.Moves.@abstract;
+using Chest.Logic.Pieces.@abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,13 @@ namespace Chest.Logic.Pieces
 	{
 		public override PieceType Type { get; init; } = PieceType.Rook;
 		public override Color Color { get; init; }
+		private static readonly Direction[] _possibleDirection = new Direction[]
+		{
+			Direction.North,
+			Direction.South,
+			Direction.East,
+			Direction.West
+		};
 		public Rook(Color color)
 		{
 			Color = color;
@@ -20,6 +29,11 @@ namespace Chest.Logic.Pieces
 			Rook copy = new Rook(Color);
 			copy.HasMoved = HasMoved;
 			return copy;
+		}
+		public override IEnumerable<Move> GetMoves(Position from, Board board)
+		{
+			var possiblePositions = MovePositionInDirection(from, board, _possibleDirection);
+			return possiblePositions.Select(pos => new NormalMove(from, pos));
 		}
 	}
 }
