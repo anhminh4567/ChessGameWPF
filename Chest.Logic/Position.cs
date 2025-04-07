@@ -1,5 +1,4 @@
-﻿using ChestLIbrary;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,15 +42,15 @@ namespace Chest.Logic
 				   Row == position.Row &&
 				   Column == position.Column;
 		}
-		public Player SquareColor()
+		public Color SquareColor()
 		{
 			if( ( Row + Column) % 2 == 0)
 			{
-				return Player.White;
+				return Color.White;
 			}
 			else
 			{
-				return Player.Black;
+				return Color.Black;
 			}
 		}
 

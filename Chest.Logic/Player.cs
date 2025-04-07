@@ -1,22 +1,20 @@
-﻿namespace ChestLIbrary
-{
-    public enum Player
-    {
-        None, 
-        White,
-        Black
-    }
-	public static class PlayerExtensions
-	{
-		public static Player Opponent(this Player player)
-		{
-			return  player switch
-			{
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-				Player.White => Player.Black,
-                Player.Black => Player.White,
-                _ => Player.None
-			};
-	} }
-	
+namespace Chest.Logic
+{
+    public class Player
+    {
+        public Color Color { get; init; }
+        public string Name { get; init; }
+        public Player (Color color, string name)
+		{
+			Color = color;
+			Name = name;
+		}
+
+	}
 }

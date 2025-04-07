@@ -5,14 +5,60 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChestGUI"
         mc:Ignorable="d"
-        Title="Chest" Height="600" Width="600"
-        
+        Title="Chest" Height="600" Width="800"
+        WindowStartupLocation="CenterScreen"
         Background="Gray" Opacity="1" 
         Icon="/Assets/icon.ico">
-    <Grid>
-        
-        <Grid.Background>
-            <ImageBrush ImageSource="/Assets/Board.png" Stretch="Uniform"  /> 
-        </Grid.Background>
+
+    <Grid >
+        <Grid.ColumnDefinitions >
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions >
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.ColumnSpan="2" Margin="5" Grid.RowSpan="10" >
+            <StackPanel.Background>
+                <SolidColorBrush Color="#FF2D2D30" />
+            </StackPanel.Background>
+            <Button x:Name="btnCheckBoardSquare" Content="Check box square" VerticalAlignment="Center" Click="btnCheckBoardSquare_Click"  />
+        </StackPanel>
+        <Viewbox  Grid.ColumnSpan="8" Grid.Column="2" Grid.Row="1" Grid.RowSpan="9" >
+            <Grid Width="600" Height="600" >
+                
+                <Grid.Background>
+
+                    <ImageBrush ImageSource="/Assets/Board.png"   />
+                </Grid.Background>
+                <UniformGrid x:Name="PieceGrid"
+                             Rows="8"
+                             Columns="8"
+                             RenderOptions.BitmapScalingMode="HighQuality">
+                    <!--<Image Source="/Assets/QueenB.png" />-->
+                </UniformGrid>
+            </Grid>
+    
+        </Viewbox>
     </Grid>
+       
+    
 </Window>
