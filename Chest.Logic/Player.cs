@@ -15,6 +15,6 @@ namespace Chest.Logic
 			Color = color;
 			Name = name;
 		}
-
+		
 	}
 }

@@ -31,7 +31,7 @@ namespace ChestGUI
 			Player whitePlayer = new Player(Chest.Logic.Color.White, "Mr.white");
 			Player blackPlayer = new Player(Chest.Logic.Color.Black, "Mr.black");
 
-			_gameState = new GameState(initialBoard, whitePlayer);
+			_gameState = new GameState(initialBoard, whitePlayer,blackPlayer);
 
 			DrawBoard(initialBoard);
 		}
@@ -61,7 +61,7 @@ namespace ChestGUI
 				}
 			}
 		}
-		private async void btnCheckBoardSquare_Click(object sender, RoutedEventArgs e)
+		private void btnCheckBoardSquare_Click(object sender, RoutedEventArgs e)
 		{
 			
 		}
