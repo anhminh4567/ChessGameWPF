@@ -51,8 +51,8 @@ namespace Chest.Logic.Pieces.@abstract
 				if (piece.Color != Color)
 				{
 					yield return pos;
-					yield break; // we break since if we take the piece, we can't move any further in this direction
 				}
+				yield break; // we break since if we take the piece, we can't move any further in this direction
 			}
 		}
 		protected IEnumerable<Position> MovePositionInDirection(Position from, Board board, Direction[] dirs)

@@ -34,10 +34,10 @@ namespace Chest.Logic.Pieces
 		private static IEnumerable<Position> PotentialToPosition(Position from)
 		{
 			// outer loop for the Vertical Direction
-			foreach(Direction vertical in new Direction[] { Direction.North, Direction.West })
+			foreach(Direction vertical in new Direction[] { Direction.North, Direction.South })
 			{
 				// inner loop for the Horizontal Direction
-				foreach (Direction horizontal in new Direction[] { Direction.East, Direction.South })
+				foreach (Direction horizontal in new Direction[] { Direction.East, Direction.West })
 				{
 					yield return from + (2 * vertical) + horizontal;
 					yield return from + (2 * horizontal) + vertical;

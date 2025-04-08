@@ -10,8 +10,11 @@
         Background="Gray" Opacity="1" 
         Icon="/Assets/icon.ico">
 
+    <Window.DataContext >
+        <Binding RelativeSource="{RelativeSource Self}" />
+    </Window.DataContext>
     <Grid >
-        <Grid.ColumnDefinitions >
+        <Grid.ColumnDefinitions  >
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
@@ -40,21 +43,35 @@
             <StackPanel.Background>
                 <SolidColorBrush Color="#FF2D2D30" />
             </StackPanel.Background>
-            <Button x:Name="btnCheckBoardSquare" Content="Check box square" VerticalAlignment="Center" Click="btnCheckBoardSquare_Click"  />
+            <Button x:Name="btnCheckBoardSquare" Content="Check box square" VerticalAlignment="Center"  />
+            <TextBlock 
+                Background="White"
+                x:Name="txtPlayerTurn" 
+                Text="{Binding Mode=OneWay, Path=CurrentGameState.CurrentPlayer.Name    }"
+                />
         </StackPanel>
         <Viewbox  Grid.ColumnSpan="8" Grid.Column="2" Grid.Row="1" Grid.RowSpan="9" >
-            <Grid Width="600" Height="600" >
-                
+            <Grid Width="600" Height="600" 
+                  x:Name="BoardGrid"
+                  MouseDown="BoardGrid_MouseDown">
                 <Grid.Background>
 
                     <ImageBrush ImageSource="/Assets/Board.png"   />
                 </Grid.Background>
+                <UniformGrid Name="HightLightGrid"
+                             Rows="8"
+                             Columns="8">
+                    
+                </UniformGrid>
+                
                 <UniformGrid x:Name="PieceGrid"
                              Rows="8"
                              Columns="8"
                              RenderOptions.BitmapScalingMode="HighQuality">
                     <!--<Image Source="/Assets/QueenB.png" />-->
                 </UniformGrid>
+                
+                
             </Grid>
             
         </Viewbox>

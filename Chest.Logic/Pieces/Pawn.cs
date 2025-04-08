@@ -50,7 +50,7 @@ namespace Chest.Logic.Pieces
 		}
 		private bool CanCaptureAt(Position pos, Board board)
 		{
-			if(! Board.IsValidPosition(pos) || ! board.IsEmpty(pos) )
+			if(! Board.IsValidPosition(pos) ||  board.IsEmpty(pos) )
 			{
 				return false;
 			}

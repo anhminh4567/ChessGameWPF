@@ -3,6 +3,7 @@
 - [Position and Direction](#position-and-direction)
 - [Pieces](#image-example)
 - [Position and possible moves](#position-and-moves)
+- [Select and move cache](#select-and-move-cache)
 ## Introduction
 this project follow tutorial from https://www.youtube.com/@OttoBotCode
 
@@ -10,7 +11,9 @@ this project follow tutorial from https://www.youtube.com/@OttoBotCode
 Logic:<br/>
 &nbsp;&nbsp;GameState <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Player (who, who go first)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Player[]<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Board <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CurrentPiece <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pieces<br/>
 
 ## Position and Direction
@@ -39,3 +42,14 @@ be taken)<br/>
 ex img:
 <img src="./mdsrc/scrs_moves_position.png">
 - when it reach something, stop, and color those possible path
+
+
+## select-and-move-cache
+- this is the main logic of the game, when we select a piece, we need to
+1. select a piece <br/>
+2. get position and the move at that position <br/>
+3. get all the moves of that piece at the position <br/>
+4. set the cache ( with key being the possible ToPosition in move, value being the move itself ), 
+get the move from the cache
+then display on the grid 
+<img src="./mdsrc/srcs_movecache_select_explain.png">>

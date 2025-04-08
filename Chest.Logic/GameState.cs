@@ -2,15 +2,17 @@
 using Chest.Logic.Pieces.@abstract;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Chest.Logic
 {
-    public class GameState
+    public class GameState 
     {
 		private Player[] _players = new Player[2];
+
 
 		public Board ChessBoard { get; init; } = Board.Initial();
         public Player CurrentPlayer { get; private set; }
@@ -37,7 +39,7 @@ namespace Chest.Logic
 		{
 			moveTo.Execute(ChessBoard);
 
-			CurrentPlayer = _players.Where(p => p != CurrentPlayer).First();
+			CurrentPlayer = _players.Where(p => p.Color != CurrentPlayer.Color).First();
 		}
 	}
 }
