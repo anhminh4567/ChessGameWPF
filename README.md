@@ -4,6 +4,7 @@
 - [Pieces](#image-example)
 - [Position and possible moves](#position-and-moves)
 - [Select and move cache](#select-and-move-cache)
+- [Check Illegal Move](#check-illegal-move))
 ## Introduction
 this project follow tutorial from https://www.youtube.com/@OttoBotCode
 
@@ -52,4 +53,13 @@ ex img:
 4. set the cache ( with key being the possible ToPosition in move, value being the move itself ), 
 get the move from the cache
 then display on the grid 
-<img src="./mdsrc/srcs_movecache_select_explain.png">>
+<img src="./mdsrc/srcs_movecache_select_explain.png">
+
+## check-illegal-move
+* to check illegal move, these are the step
+1. Copy the board ( check the board method) 
+2. Move the piece to the new position IN THE COPIED BOARD
+3. After move check if the position of the player's king, King.IsCheck(),
+4. And if they are checked, then the move user just made is illegal
+5. if it does, then the move is illegal
+<img src="./mdsrc/scrs_check_illegal_move.png">

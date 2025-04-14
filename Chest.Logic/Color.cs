@@ -12,16 +12,4 @@ namespace Chest.Logic
 		White,
 		Black
 	}
-	public static class ColorExtension
-	{
-		public static Color Opponent(this Color color)
-		{
-			return color switch
-			{
-				Color.White => Color.Black,
-				Color.Black => Color.White,
-				_ => Color.None
-			};
-		}
-	}
 }

@@ -33,13 +33,18 @@ namespace Chest.Logic
 			}
 
 			Piece piece = ChessBoard[position];
-			return piece.GetMoves(position, ChessBoard);
+			IEnumerable<Move> possibleMoves = piece.GetMoves(position, ChessBoard);
+			return possibleMoves.Where(move => move.IsLegal(ChessBoard, CurrentPlayer, GetOpponent() ));
 		}
 		public void MakeMove(Move moveTo)
 		{
 			moveTo.Execute(ChessBoard);
 
 			CurrentPlayer = _players.Where(p => p.Color != CurrentPlayer.Color).First();
+		}
+		public Player GetOpponent()
+		{
+			return _players.Where(p => p.Color != CurrentPlayer.Color).First();
 		}
 	}
 }

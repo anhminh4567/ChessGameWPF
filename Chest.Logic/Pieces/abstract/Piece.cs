@@ -59,5 +59,17 @@ namespace Chest.Logic.Pieces.@abstract
 		{
 			return dirs.SelectMany(dir => MovePositionInDirection(from, board, dir));
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="from">the position of the piece that gonna threaten the king</param>
+		/// <param name="board"></param>
+		/// <returns></returns>
+		public virtual bool CanCaptureOpponentKing(Position from, Board board)
+		{
+			bool canCapture = 
+				GetMoves(from, board).Any(m => board[m.To] != null && board[m.To].Type == PieceType.King);
+			return canCapture;
+		}
 	}
 }

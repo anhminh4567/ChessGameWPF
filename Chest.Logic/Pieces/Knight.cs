@@ -44,6 +44,12 @@ namespace Chest.Logic.Pieces
 				}
 			}
 		}
-		
+		public override bool CanCaptureOpponentKing(Position from, Board board)
+		{
+			return MovePositions(from, board)
+				.Any(to =>  board[to] != null && board[to].Type == PieceType.King
+				&& board[to].Color != this.Color);
+		}
+
 	}
 }
