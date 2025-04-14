@@ -1,4 +1,5 @@
-﻿using Chest.Logic.Moves;
+﻿using Chest.Logic.Boards;
+using Chest.Logic.Moves;
 using Chest.Logic.Moves.@abstract;
 using Chest.Logic.Pieces.@abstract;
 using Microsoft.VisualBasic;

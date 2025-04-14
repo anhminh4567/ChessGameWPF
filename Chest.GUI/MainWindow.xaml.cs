@@ -14,6 +14,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Chest.GUI;
 using Chest.Logic;
+using Chest.Logic.Boards;
+using Chest.Logic.Boards.@abstract;
+using Chest.Logic.Boards.@abstract.schemes;
 using Chest.Logic.Moves.@abstract;
 using Chest.Logic.Pieces.@abstract;
 using Newtonsoft.Json;
@@ -41,12 +44,16 @@ namespace ChestGUI
 			InitializeComponent();
 			InitializeBoard();
 
-			Board initialBoard = Board.Initial();
+			IBoardInitScheme scheme = new NormalInit();
+			//IBoardInitScheme scheme = new CheckMateInit_No2();
+
+			Board initialBoard = Board.Initial(scheme);
 
 			Player whitePlayer = new Player(Chest.Logic.Color.White, "Mr.white");
 			Player blackPlayer = new Player(Chest.Logic.Color.Black, "Mr.black");
 
 			_gameState = new GameState(initialBoard, whitePlayer,blackPlayer);
+			//_gameState = new GameState(initialBoard, blackPlayer, whitePlayer );
 
 			DrawBoard(initialBoard);
 			SetCursor(_gameState.CurrentPlayer);

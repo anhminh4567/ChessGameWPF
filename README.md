@@ -5,6 +5,7 @@
 - [Position and possible moves](#position-and-moves)
 - [Select and move cache](#select-and-move-cache)
 - [Check Illegal Move](#check-illegal-move))
+- [Check Mate & Stale Mate](#checkmate-stalemate))
 ## Introduction
 this project follow tutorial from https://www.youtube.com/@OttoBotCode
 
@@ -63,3 +64,17 @@ then display on the grid
 4. And if they are checked, then the move user just made is illegal
 5. if it does, then the move is illegal
 <img src="./mdsrc/scrs_check_illegal_move.png">
+
+
+## checkmate-stalemate
+
+- it is checked after every MakeMove() in  class : GameState
+- CheckGameOver()
+1. Get all moves from all piece of the current player
+2. select only the moves that are LEGAL <br/>
+   ( whose move is not InCheck() )
+3. If ( no move is possible for current player) <br/>
+   check if IsCheckMate(currentPlayer) to opponent <br/>
+   if current player is check mate ==> opponent win
+   Else Result.Draw(stalemate...)
+

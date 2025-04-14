@@ -1,4 +1,5 @@
-﻿using Chest.Logic.Moves.@abstract;
+﻿using Chest.Logic.Boards;
+using Chest.Logic.Moves.@abstract;
 using Chest.Logic.Pieces.@abstract;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,10 @@ namespace Chest.Logic
 		private Player[] _players = new Player[2];
 
 
-		public Board ChessBoard { get; init; } = Board.Initial();
+		public Board ChessBoard { get; init; }
         public Player CurrentPlayer { get; private set; }
+
+		public Result? GameResult { get; private set; } = null; 
 
 		public GameState(Board chessBoard,Player starterPlayer, Player otherPlayer)
 		{
@@ -41,10 +44,41 @@ namespace Chest.Logic
 			moveTo.Execute(ChessBoard);
 
 			CurrentPlayer = _players.Where(p => p.Color != CurrentPlayer.Color).First();
+			// after move check if we win or draw
+			CheckForGameOver();
 		}
 		public Player GetOpponent()
 		{
 			return _players.Where(p => p.Color != CurrentPlayer.Color).First();
+		}
+		public IEnumerable<Move> AllLegalMovesForPlayer(Player player)
+		{
+			IEnumerable<Move> moveCandidiates = ChessBoard.GetPiecePositionForPlayer(player)
+				.SelectMany(pos => {
+					Piece piece = ChessBoard[pos];
+					return piece.GetMoves(pos, ChessBoard);
+				});
+			return moveCandidiates.Where(move => move.IsLegal(ChessBoard, player, GetOpponent()));
+		}
+
+		private void CheckForGameOver()
+		{
+			if(  AllLegalMovesForPlayer(CurrentPlayer).Any() == false)
+			{
+				if(ChessBoard.IsInCheck(CurrentPlayer, GetOpponent()))
+				{
+					var opponent = GetOpponent();
+					GameResult = Result.Win(opponent);
+				}
+				else
+				{
+					GameResult = Result.Draw(EndReason.Stalemate);
+				}
+			}
+		}
+		public bool IsGameOver()
+		{
+			return GameResult != null;
 		}
 	}
 }

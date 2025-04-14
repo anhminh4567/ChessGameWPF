@@ -1,4 +1,5 @@
-﻿using Chest.Logic.Moves.@abstract;
+﻿using Chest.Logic.Boards;
+using Chest.Logic.Moves.@abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
