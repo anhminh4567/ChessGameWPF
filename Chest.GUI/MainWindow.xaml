@@ -70,10 +70,9 @@
                              RenderOptions.BitmapScalingMode="HighQuality">
                     <!--<Image Source="/Assets/QueenB.png" />-->
                 </UniformGrid>
-                
-                
+
+                <ContentControl x:Name="MenuContainer"  />
             </Grid>
-            
         </Viewbox>
     </Grid>
        

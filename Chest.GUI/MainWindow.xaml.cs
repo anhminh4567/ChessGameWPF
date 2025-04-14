@@ -31,6 +31,7 @@ namespace ChestGUI
 		private readonly Image[,] _pieceImages = new Image[8, 8];
 		private readonly Rectangle[,] _highlightedSquares = new Rectangle[8, 8];
 		private readonly Dictionary<Position, Move> _moveCache = new();
+		private List<Player> _players = new();
 		private Position? _selectedPostion = null;
 
 		public GameState CurrentGameState
@@ -51,7 +52,7 @@ namespace ChestGUI
 
 			Player whitePlayer = new Player(Chest.Logic.Color.White, "Mr.white");
 			Player blackPlayer = new Player(Chest.Logic.Color.Black, "Mr.black");
-
+			_players.AddRange([whitePlayer,blackPlayer]);
 			_gameState = new GameState(initialBoard, whitePlayer,blackPlayer);
 			//_gameState = new GameState(initialBoard, blackPlayer, whitePlayer );
 
@@ -96,6 +97,13 @@ namespace ChestGUI
 			Console.WriteLine(sender == e.Source);
 			Console.WriteLine(sender == e.OriginalSource);
 #endif
+			// if user is open menu, then ofcourse, should not move 
+			if (IsMenuOnScreen()) 
+			{
+				return;
+			}
+
+
 			Point point = e.GetPosition(this.BoardGrid);
 			Position pos = ToSquarePosition(point);
 
@@ -165,6 +173,12 @@ namespace ChestGUI
 			_gameState.MakeMove(move); 
 			DrawBoard(_gameState.ChessBoard);
 			SetCursor(_gameState.CurrentPlayer);
+
+			if (_gameState.IsGameOver())
+			{
+				ShowGameOver();
+			}
+
 		}
 		private void OnToPositionSelected(Position pos)
 		{
@@ -185,6 +199,39 @@ namespace ChestGUI
 			{
 				this.Cursor = ChessCursors.BlackCursor;
 			}
+		}
+
+		private bool IsMenuOnScreen() 
+		{
+			return this.MenuContainer.Content != null;
+		}
+
+		private void ShowGameOver()
+		{
+			GameOverMenu gameOverMenu = new GameOverMenu(_gameState);
+			this.MenuContainer.Content = gameOverMenu;
+			gameOverMenu.OptionSelected += option =>
+			{
+				if (option == Option.Restart)
+				{
+					this.MenuContainer = null;
+					RestartGame();
+				}
+				else
+				{
+					Application.Current.Shutdown();
+				}
+			};
+		}
+
+		private void RestartGame()
+		{
+			HideHighlightedSquares();
+			_moveCache.Clear();
+			Board board = Board.Initial(new NormalInit());
+			_gameState = new GameState(board, _players[0], _players[1]);
+			DrawBoard(_gameState.ChessBoard	);
+			SetCursor(_gameState.CurrentPlayer);
 		}
 	}
 }
