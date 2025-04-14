@@ -6,6 +6,7 @@
 - [Select and move cache](#select-and-move-cache)
 - [Check Illegal Move](#check-illegal-move))
 - [Check Mate & Stale Mate](#checkmate-stalemate))
+- [Game over menu and pause menu](#gameover-pause-menu)
 ## Introduction
 this project follow tutorial from https://www.youtube.com/@OttoBotCode
 
@@ -47,6 +48,7 @@ ex img:
 
 
 ## select-and-move-cache
+- video 6 7 8
 - this is the main logic of the game, when we select a piece, we need to
 1. select a piece <br/>
 2. get position and the move at that position <br/>
@@ -57,6 +59,7 @@ then display on the grid
 <img src="./mdsrc/srcs_movecache_select_explain.png">
 
 ## check-illegal-move
+- video 8 - 9
 * to check illegal move, these are the step
 1. Copy the board ( check the board method) 
 2. Move the piece to the new position IN THE COPIED BOARD
@@ -67,7 +70,7 @@ then display on the grid
 
 
 ## checkmate-stalemate
-
+- video 9
 - it is checked after every MakeMove() in  class : GameState
 - CheckGameOver()
 1. Get all moves from all piece of the current player
@@ -78,3 +81,5 @@ then display on the grid
    if current player is check mate ==> opponent win
    Else Result.Draw(stalemate...)
 
+## gameover-pause-menu
+- video 10
