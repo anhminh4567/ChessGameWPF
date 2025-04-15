@@ -17,6 +17,7 @@ using Chest.Logic;
 using Chest.Logic.Boards;
 using Chest.Logic.Boards.@abstract;
 using Chest.Logic.Boards.@abstract.schemes;
+using Chest.Logic.Moves;
 using Chest.Logic.Moves.@abstract;
 using Chest.Logic.Pieces.@abstract;
 using Newtonsoft.Json;
@@ -32,6 +33,7 @@ namespace ChestGUI
 		private readonly Rectangle[,] _highlightedSquares = new Rectangle[8, 8];
 		private readonly Dictionary<Position, Move> _moveCache = new();
 		private List<Player> _players = new();
+		private IBoardInitScheme _boardInitScheme;
 		private Position? _selectedPostion = null;
 
 		public GameState CurrentGameState
@@ -47,6 +49,8 @@ namespace ChestGUI
 
 			IBoardInitScheme scheme = new NormalInit();
 			//IBoardInitScheme scheme = new CheckMateInit_No2();
+			//IBoardInitScheme scheme = new PawnPromotionInit_No2();
+			_boardInitScheme = scheme;
 
 			Board initialBoard = Board.Initial(scheme);
 
@@ -168,6 +172,23 @@ namespace ChestGUI
 				ShowHighlightedSquares();
 			}
 		}
+		private void HandlePromotion(Position from, Position to)
+		{
+			//show pawn at to positon, then display menu
+			// then we re-draw the board SINCE this is not the final calculation of the board
+			_pieceImages[to.Row, to.Column].Source = Images.GetImage(PieceType.Pawn,_gameState.CurrentPlayer.Color);
+			_pieceImages[from.Row, from.Column].Source = null;
+
+			PromotionMenu promotionMenu = new PromotionMenu(_gameState.CurrentPlayer);
+			this.MenuContainer.Content = promotionMenu;
+			promotionMenu.PieceSelected += pieceType =>
+			{
+				MenuContainer.Content = null;
+				Move move = new PawnPromotionMove(from, to, pieceType);
+				HandleMove(move);
+			};
+		}
+
 		private void HandleMove(Move move)
 		{
 			_gameState.MakeMove(move); 
@@ -186,9 +207,19 @@ namespace ChestGUI
 			HideHighlightedSquares();
 			if(_moveCache.TryGetValue(pos, out Move move))
 			{
-				HandleMove(move);
+				
+				if(move.Type == MoveType.PawnPromotion)
+				{
+					HandlePromotion(move.From,move.To);
+				}
+				else
+				{
+					HandleMove(move);
+				}
 			}
 		}
+
+		
 		private void SetCursor(Player player)
 		{
 			if(player.Color == Chest.Logic.Color.White)
@@ -228,7 +259,7 @@ namespace ChestGUI
 		{
 			HideHighlightedSquares();
 			_moveCache.Clear();
-			Board board = Board.Initial(new NormalInit());
+			Board board = Board.Initial(_boardInitScheme);
 			_gameState = new GameState(board, _players[0], _players[1]);
 			DrawBoard(_gameState.ChessBoard	);
 			SetCursor(_gameState.CurrentPlayer);

@@ -7,6 +7,8 @@
 - [Check Illegal Move](#check-illegal-move))
 - [Check Mate & Stale Mate](#checkmate-stalemate))
 - [Game over menu and pause menu](#gameover-pause-menu)
+- [Pawn promotion logic and menu](#promotion-logic-menu)
+- [Castling logic](#castling-logic)]
 ## Introduction
 this project follow tutorial from https://www.youtube.com/@OttoBotCode
 
@@ -82,4 +84,16 @@ then display on the grid
    Else Result.Draw(stalemate...)
 
 ## gameover-pause-menu
-- video 10
+- video 10, 11
+- video 11: add to the main window, display when game finish
+
+
+## promotion-logic-menu
+- video 12
+- Add PawnPromotionMove.cs 
+- Modify Pawn diagonal and forward move ( extra condtion check)
+- modfiy the Click() of the main window, when pawn reach the end 
+- and promote
+
+## castling-logic
+- video 13

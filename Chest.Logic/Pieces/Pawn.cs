@@ -29,7 +29,13 @@ namespace Chest.Logic.Pieces
 			
 
 		}
-
+		private static IEnumerable<Move> PromotionMoves(Position from, Position to)
+		{
+			yield return new PawnPromotionMove(from, to, PieceType.Queen);
+			yield return new PawnPromotionMove(from, to, PieceType.Rook);
+			yield return new PawnPromotionMove(from, to, PieceType.Knight);
+			yield return new PawnPromotionMove(from, to, PieceType.Bishop);
+		}
 
 		public override Piece Copy()
 		{
@@ -69,11 +75,22 @@ namespace Chest.Logic.Pieces
 			Position oneMovePosition = from + _forward;
 			if(CanMoveTo(oneMovePosition, board))
 			{
-				yield return new NormalMove(from, oneMovePosition);
-				// check if it can move forward, ONLY WHEN IT FIRST MOVE
+				if(oneMovePosition.Row == 0 || oneMovePosition.Row == 7)
+				{
+					// if the pawn is at the end of the board, it can be promoted
+					foreach (Move move in PromotionMoves(from, oneMovePosition))
+					{
+						yield return move;
+					}
+				}
+				else
+				{
+					yield return new NormalMove(from, oneMovePosition);
+					// check if it can move forward, ONLY WHEN IT FIRST MOVE
+				}
 				Position twoMovePosition = oneMovePosition + _forward;
-				
-				if( ! HasMoved && CanMoveTo(twoMovePosition, board))
+
+				if (!HasMoved && CanMoveTo(twoMovePosition, board))
 				{
 					yield return new NormalMove(from, twoMovePosition);
 				}
@@ -95,7 +112,18 @@ namespace Chest.Logic.Pieces
 				
 				if(CanCaptureAt(to, board))
 				{
-					yield return new NormalMove(from, to);
+					if (to.Row == 0 || to.Row == 7)
+					{
+						// if the pawn is at the end of the board, it can be promoted
+						foreach (Move move in PromotionMoves(from, to))
+						{
+							yield return move;
+						}
+					}
+					else
+					{
+						yield return new NormalMove(from, to);
+					}
 				}
 			}
 		}
