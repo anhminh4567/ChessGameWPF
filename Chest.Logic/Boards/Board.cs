@@ -12,6 +12,12 @@ namespace Chest.Logic.Boards
 	public class Board
 	{
 		private Piece[,] _pieces = new Piece[8, 8];
+
+		private readonly Dictionary<Color, Position> _pawnSkipPositions = new()
+		{
+			{  Color.White, null } ,
+			{  Color.Black, null }
+		};
 		public Piece this[int row, int column] 
 		{
 			get => _pieces[row, column];
@@ -45,6 +51,15 @@ namespace Chest.Logic.Boards
 		{
 			return IsValidPosition(position.Row, position.Column);
 		}
+		public Position GetPawnSkipPosition(Color playerColor)
+		{
+			return _pawnSkipPositions[playerColor];
+		}
+		public void SetPawnSkipPosition(Color playerColor, Position pos)
+		{
+			 _pawnSkipPositions[playerColor] = pos;
+		}
+
 		public bool IsEmpty(Position position)
 		{
 			return this[position] == null;

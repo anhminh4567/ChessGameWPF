@@ -92,7 +92,7 @@ namespace Chest.Logic.Pieces
 
 				if (!HasMoved && CanMoveTo(twoMovePosition, board))
 				{
-					yield return new NormalMove(from, twoMovePosition);
+					yield return new DoublePawnMove(from, twoMovePosition);
 				}
 			}
 		}
@@ -109,8 +109,17 @@ namespace Chest.Logic.Pieces
 			{
 				// diagonal is basically go forward and left or right
 				Position to = from + _forward + dir;
-				
-				if(CanCaptureAt(to, board))
+
+				// we also check for the poisiontoin, to see if that position is skipped by opoonent pawn
+				// if so we can do En Passant MOVE
+				Color opponentColor = ColorExtensions.Opposite(this.Color);
+				if (to == board.GetPawnSkipPosition(opponentColor))
+				{
+					yield return new EnPassantMove(from, to);
+				}
+
+
+				if (CanCaptureAt(to, board))
 				{
 					if (to.Row == 0 || to.Row == 7)
 					{

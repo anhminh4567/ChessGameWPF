@@ -41,6 +41,15 @@ namespace Chest.Logic
 		}
 		public void MakeMove(Move moveTo)
 		{
+			// this is to make sure, the enpassant only happen once right after the pawn move Doublee
+			// after that forget the skip positoin
+			// if B move Double ==> store the skip position in Execute(ChessBoard)
+			// then W turn, this time, the skip position is not reseet for B 
+			// white Execute(ChessBoard) and did not do EnPassantMove.cs
+			// ==> next time the black move, the skip position is SET TO NULL ==> FORGET
+			// ==> WHITE move again, and no ENPASSANT is allowed
+			ChessBoard.SetPawnSkipPosition(CurrentPlayer.Color, null);
+
 			moveTo.Execute(ChessBoard);
 
 			CurrentPlayer = _players.Where(p => p.Color != CurrentPlayer.Color).First();

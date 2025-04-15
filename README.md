@@ -8,7 +8,8 @@
 - [Check Mate & Stale Mate](#checkmate-stalemate))
 - [Game over menu and pause menu](#gameover-pause-menu)
 - [Pawn promotion logic and menu](#promotion-logic-menu)
-- [Castling logic](#castling-logic)]
+- [Castling logic](#castling-logic)
+- [En passant logic](#en-passant-logic)
 ## Introduction
 this project follow tutorial from https://www.youtube.com/@OttoBotCode
 
@@ -111,3 +112,20 @@ then display on the grid
 move is not valid also
 - new file added: CastleMove.cs , 
 - modify: King.cs
+
+## en-passant-logic
+- video 14
+<img src="./mdsrc/scrs_en_passant_1.png" />
+- this is a special move for pawn, when the pawn move diagonal
+- capture the oppoentn pawn a square below the new move, 
+- or can be said, capture the pawn next to it on left or right
+- look at the logic to see which direction we goin
+- only when the opponent move 2 square forward !!
+- and the pawn is on the same row as the opponent pawn
+- ==> so after some pawn move 2 square, it need to store that for the next 
+move , so that opponent pawn can check if possible to capture
+- we store this in board
+- EnpassentMove.cs , we move to the skipped position of the opponent pawn
+- then we capture that pawn
+- Add: DoublePawnMove.cs, EnPassantMove.cs, 
+- Modify: GameState.cs, Board.cs, Pawn.cs

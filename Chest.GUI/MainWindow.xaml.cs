@@ -47,13 +47,16 @@ namespace ChestGUI
 			InitializeComponent();
 			InitializeBoard();
 
-			IBoardInitScheme scheme = new NormalInit();
+			//IBoardInitScheme scheme = new NormalInit();
 			//IBoardInitScheme scheme = new CheckMateInit_No2();
 			//IBoardInitScheme scheme = new PawnPromotionInit_No2();
 			//IBoardInitScheme scheme = new CastleW_No1();
 			//IBoardInitScheme scheme = new CastleB_No1();
 			//IBoardInitScheme scheme = new CastleW_No2();
 			//IBoardInitScheme scheme = new CastleW_No3();
+			IBoardInitScheme scheme = new EnPassant_No1();
+
+
 			_boardInitScheme = scheme;
 
 			Board initialBoard = Board.Initial(scheme);
@@ -61,8 +64,8 @@ namespace ChestGUI
 			Player whitePlayer = new Player(Chest.Logic.Color.White, "Mr.white");
 			Player blackPlayer = new Player(Chest.Logic.Color.Black, "Mr.black");
 			_players.AddRange([whitePlayer,blackPlayer]);
-			_gameState = new GameState(initialBoard, whitePlayer,blackPlayer);
-			//_gameState = new GameState(initialBoard, blackPlayer, whitePlayer );
+			//_gameState = new GameState(initialBoard, whitePlayer,blackPlayer);
+			_gameState = new GameState(initialBoard, blackPlayer, whitePlayer );
 
 			DrawBoard(initialBoard);
 			SetCursor(_gameState.CurrentPlayer);
