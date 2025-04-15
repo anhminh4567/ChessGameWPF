@@ -24,6 +24,38 @@ namespace Chest.Logic.Pieces
 		{
 			Color = color;
 		}
+		/// <summary>
+		/// Check if the rook is unmoved
+		/// </summary>
+		/// <param name="pos">the poistion to check if there is a ROOK piece </param>
+		/// <param name="board">board</param>
+		/// <returns></returns>
+		private static bool IsUnmovedRook(Position pos, Board board)
+		{
+			if (board.IsEmpty(pos))
+			{
+				return false;
+			}
+			else
+			{
+				Piece piece = board[pos];
+				if (piece.Type == PieceType.Rook && !piece.HasMoved)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		/// <summary>
+		/// Check if the positon between the King and ROOK is empty for castling
+		/// </summary>
+		/// <param name="positions">all the position between king and ROOK</param>
+		/// <param name="board">board</param>
+		/// <returns></returns>
+		private static bool AllEmpty(IEnumerable<Position> positions, Board board)
+		{
+			return positions.All(pos => board.IsEmpty(pos));
+		}
 		public override Piece Copy()
 		{
 			King copy = new King(Color);
@@ -35,6 +67,14 @@ namespace Chest.Logic.Pieces
 			foreach (Position to in MovePositions(from, board))
 			{
 				yield return new NormalMove(from, to);
+			}
+			if(CanCastleKingSide(from, board))
+			{
+				yield return new CastleMove(MoveType.CastleKingSide, from);
+			}
+			if(CanCastleQueenSide(from, board))
+			{
+				yield return new CastleMove(MoveType.CastleQueenSide, from);
 			}
 		}
 		private IEnumerable<Position> MovePositions(Position from, Board board)
@@ -51,6 +91,38 @@ namespace Chest.Logic.Pieces
 					yield return to;
 				}
 			}
+		}
+
+		private bool CanCastleKingSide(Position from, Board board)
+		{
+			if(HasMoved)
+			{
+				return false;
+			}
+			Position rookSupposedPosition = new Position(from.Row, 7);
+			Position[] piecesBetweenThem  =new Position[]
+			{
+				new (from.Row, 5),
+				new (from.Row, 6)
+			};
+			return IsUnmovedRook(rookSupposedPosition, board) &&
+				AllEmpty(piecesBetweenThem, board);
+		}
+		private bool CanCastleQueenSide(Position from, Board board)
+		{
+			if (HasMoved)
+			{
+				return false;
+			}
+			Position rookSupposedPosition = new Position(from.Row, 0);
+			Position[] piecesBetweenThem = new Position[]
+			{
+				new (from.Row, 1),
+				new (from.Row, 2),
+				new (from.Row, 3)
+			};
+			return IsUnmovedRook(rookSupposedPosition, board) &&
+				AllEmpty(piecesBetweenThem, board);
 		}
 	}
 }

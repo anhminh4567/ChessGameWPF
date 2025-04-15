@@ -96,4 +96,18 @@ then display on the grid
 - and promote
 
 ## castling-logic
-- video 13
+
+  <img src="./mdsrc/scrs_castling.png" alt="Castling Example" />
+  <img src="./mdsrc/scrs_castling_w.png" alt="Castling White Example" />
+
+ - video 13
+- the castling will work like this:
+- king move 2 position from current pos, to the direction of the rook
+- the rook move behind the king after the king move
+- same on both side, W & B, West or East, still 2 move
+- use is moved to check if they can be castle ? 
+- check if between the king and rook is empty
+- check if the king is not in check after castle, if so the
+move is not valid also
+- new file added: CastleMove.cs , 
+- modify: King.cs
