@@ -47,14 +47,14 @@ namespace ChestGUI
 			InitializeComponent();
 			InitializeBoard();
 
-			//IBoardInitScheme scheme = new NormalInit();
+			IBoardInitScheme scheme = new NormalInit();
 			//IBoardInitScheme scheme = new CheckMateInit_No2();
 			//IBoardInitScheme scheme = new PawnPromotionInit_No2();
 			//IBoardInitScheme scheme = new CastleW_No1();
 			//IBoardInitScheme scheme = new CastleB_No1();
 			//IBoardInitScheme scheme = new CastleW_No2();
 			//IBoardInitScheme scheme = new CastleW_No3();
-			IBoardInitScheme scheme = new EnPassant_No1();
+			//IBoardInitScheme scheme = new EnPassant_No1();
 
 
 			_boardInitScheme = scheme;
@@ -63,9 +63,9 @@ namespace ChestGUI
 
 			Player whitePlayer = new Player(Chest.Logic.Color.White, "Mr.white");
 			Player blackPlayer = new Player(Chest.Logic.Color.Black, "Mr.black");
-			_players.AddRange([whitePlayer,blackPlayer]);
-			//_gameState = new GameState(initialBoard, whitePlayer,blackPlayer);
-			_gameState = new GameState(initialBoard, blackPlayer, whitePlayer );
+			_players.AddRange([whitePlayer, blackPlayer]);
+			_gameState = new GameState(initialBoard, whitePlayer,blackPlayer);
+			//_gameState = new GameState(initialBoard, blackPlayer, whitePlayer);
 
 			DrawBoard(initialBoard);
 			SetCursor(_gameState.CurrentPlayer);
@@ -101,7 +101,7 @@ namespace ChestGUI
 				}
 			}
 		}
-		
+
 		private void BoardGrid_MouseDown(object sender, MouseButtonEventArgs e)
 		{
 #if DEBUG
@@ -109,7 +109,7 @@ namespace ChestGUI
 			Console.WriteLine(sender == e.OriginalSource);
 #endif
 			// if user is open menu, then ofcourse, should not move 
-			if (IsMenuOnScreen()) 
+			if (IsMenuOnScreen())
 			{
 				return;
 			}
@@ -140,7 +140,7 @@ namespace ChestGUI
 		private void ShowHighlightedSquares()
 		{
 			System.Windows.Media.Color color = Colors.Azure;
-			foreach(Position to in _moveCache.Keys)
+			foreach (Position to in _moveCache.Keys)
 			{
 				Rectangle hightLightSquare = _highlightedSquares[to.Row, to.Column];
 				hightLightSquare.Fill = new SolidColorBrush(color);
@@ -164,16 +164,17 @@ namespace ChestGUI
 		/// </summary>
 		/// <param name="point"></param>
 		/// <returns></returns>
-		private Position ToSquarePosition( Point point)
+		private Position ToSquarePosition(Point point)
 		{
-			int column = (int) Math.Floor( (point.X / BoardGrid.ActualWidth) * 8);
-			int row = (int) Math.Floor( (point.Y / BoardGrid.ActualHeight * 8) ) ;
+			int column = (int)Math.Floor((point.X / BoardGrid.ActualWidth) * 8);
+			int row = (int)Math.Floor((point.Y / BoardGrid.ActualHeight * 8));
 			return new Position(row, column);
 		}
 		private void OnFromPositionSelected(Position pos)
 		{
 			IEnumerable<Move> moves = _gameState.LegalMoveForPiece(pos);
-			if (moves.Any()) {
+			if (moves.Any())
+			{
 				_selectedPostion = pos;
 				CacheMoves(moves);
 				ShowHighlightedSquares();
@@ -183,7 +184,7 @@ namespace ChestGUI
 		{
 			//show pawn at to positon, then display menu
 			// then we re-draw the board SINCE this is not the final calculation of the board
-			_pieceImages[to.Row, to.Column].Source = Images.GetImage(PieceType.Pawn,_gameState.CurrentPlayer.Color);
+			_pieceImages[to.Row, to.Column].Source = Images.GetImage(PieceType.Pawn, _gameState.CurrentPlayer.Color);
 			_pieceImages[from.Row, from.Column].Source = null;
 
 			PromotionMenu promotionMenu = new PromotionMenu(_gameState.CurrentPlayer);
@@ -198,7 +199,7 @@ namespace ChestGUI
 
 		private void HandleMove(Move move)
 		{
-			_gameState.MakeMove(move); 
+			_gameState.MakeMove(move);
 			DrawBoard(_gameState.ChessBoard);
 			SetCursor(_gameState.CurrentPlayer);
 
@@ -212,12 +213,12 @@ namespace ChestGUI
 		{
 			_selectedPostion = null;
 			HideHighlightedSquares();
-			if(_moveCache.TryGetValue(pos, out Move move))
+			if (_moveCache.TryGetValue(pos, out Move move))
 			{
-				
-				if(move.Type == MoveType.PawnPromotion)
+
+				if (move.Type == MoveType.PawnPromotion)
 				{
-					HandlePromotion(move.From,move.To);
+					HandlePromotion(move.From, move.To);
 				}
 				else
 				{
@@ -226,10 +227,10 @@ namespace ChestGUI
 			}
 		}
 
-		
+
 		private void SetCursor(Player player)
 		{
-			if(player.Color == Chest.Logic.Color.White)
+			if (player.Color == Chest.Logic.Color.White)
 			{
 				this.Cursor = ChessCursors.WhiteCursor;
 			}
@@ -239,7 +240,7 @@ namespace ChestGUI
 			}
 		}
 
-		private bool IsMenuOnScreen() 
+		private bool IsMenuOnScreen()
 		{
 			return this.MenuContainer.Content != null;
 		}
@@ -264,12 +265,36 @@ namespace ChestGUI
 
 		private void RestartGame()
 		{
+			_selectedPostion = null;
 			HideHighlightedSquares();
 			_moveCache.Clear();
 			Board board = Board.Initial(_boardInitScheme);
 			_gameState = new GameState(board, _players[0], _players[1]);
-			DrawBoard(_gameState.ChessBoard	);
+			DrawBoard(_gameState.ChessBoard);
 			SetCursor(_gameState.CurrentPlayer);
+		}
+
+		private void Window_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (this.MenuContainer.Content == null && e.Key == Key.Escape)
+			{
+				ShowPauseMenu();
+			}
+		}
+
+		private void ShowPauseMenu()
+		{
+			PauseMenu pauseMenu = new PauseMenu();
+			this.MenuContainer.Content = pauseMenu;
+
+			pauseMenu.OptionSelected += option =>
+			{
+				this.MenuContainer.Content = null;
+				if (option == Option.Restart)
+				{
+					RestartGame();
+				}
+			};
 		}
 	}
 }

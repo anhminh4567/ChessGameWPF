@@ -4,12 +4,13 @@
 - [Pieces](#image-example)
 - [Position and possible moves](#position-and-moves)
 - [Select and move cache](#select-and-move-cache)
-- [Check Illegal Move](#check-illegal-move))
-- [Check Mate & Stale Mate](#checkmate-stalemate))
+- [Check Illegal Move](#check-illegal-move)
+- [Check Mate & Stale Mate](#checkmate-stalemate)
 - [Game over menu and pause menu](#gameover-pause-menu)
 - [Pawn promotion logic and menu](#promotion-logic-menu)
 - [Castling logic](#castling-logic)
 - [En passant logic](#en-passant-logic)
+- [Pause menu](#pause-menu)
 ## Introduction
 this project follow tutorial from https://www.youtube.com/@OttoBotCode
 
@@ -129,3 +130,9 @@ move , so that opponent pawn can check if possible to capture
 - then we capture that pawn
 - Add: DoublePawnMove.cs, EnPassantMove.cs, 
 - Modify: GameState.cs, Board.cs, Pawn.cs
+
+## pause-menu
+- video 15
+- Add: PauseMenu.xaml(.cs)
+- Modify: MainWindow.xaml(.cs) ( Mod the restartGame() 
+- , add Window_KeyDown)

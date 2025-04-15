@@ -8,6 +8,7 @@
         Title="Chest" Height="600" Width="800"
         WindowStartupLocation="CenterScreen"
         Background="Gray" Opacity="1" 
+        KeyDown="Window_KeyDown"
         Icon="/Assets/icon.ico">
 
     <Window.DataContext >
